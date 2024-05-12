@@ -1,7 +1,9 @@
 package ProjectDemo.demo.reponsitory;
 
 import ProjectDemo.demo.entity.User;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.Param;
@@ -44,6 +46,10 @@ public interface UserReponsitory extends JpaRepository<User,Integer> {
     // @Query("SELECT u FROM User u WHERE u.Role = :query")
     @Query("SELECT u FROM User u WHERE u.Role = :query")
     List<User> filterByRole( String query);
+    @Transactional
+    @Modifying
+    @Query("update User u set u.Password = ?2 where u.email = ?1")
+    void updatePassword(String email, String password);
 
 
 }

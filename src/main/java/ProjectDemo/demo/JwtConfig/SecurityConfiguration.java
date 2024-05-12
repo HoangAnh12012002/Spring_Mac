@@ -41,7 +41,7 @@ public class SecurityConfiguration {
         http.csrf(AbstractHttpConfigurer::disable).
                  cors(Customizer.withDefaults()).// by default uses a Bean by the name of corsConfigurationSource
                 authorizeHttpRequests(request -> request.requestMatchers("/api/login","/api/registration","api/GetAllUser"
-                                ,"api/Filter","api/Search")
+                                ,"api/Filter","api/Search","api/forgotPassword/**")
                         .permitAll()
 //                        .requestMatchers("/api/admin").hasAuthority("ADMIN")
 //                        .requestMatchers("/api/user").hasAuthority("USER")

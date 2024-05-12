@@ -22,7 +22,8 @@ public enum ErrorCode {
 
     INVALID_KEY(1007,"Invalid message key",HttpStatus.BAD_REQUEST), //dinh nghĩa 1 số cái nhập sai ở dto, ví dụ như PAS_INVALID mà thiếu chữ S
     USERNAME_INVALID(1008,"USERNAME must be at least 3 chracter",HttpStatus.BAD_REQUEST),
-    PASS_INVALID(1009,"Password must be at least 4 chracter",HttpStatus.BAD_REQUEST) //bỏ vào userdto thay cho lúc trước
+    PASS_INVALID(1009,"Password must be at least 4 chracter",HttpStatus.BAD_REQUEST), //bỏ vào userdto thay cho lúc trước
+    INVALID_OTP(1010,"Invalid Otp, pls enter again",HttpStatus.BAD_REQUEST)
     ;
 
     ErrorCode(int code, String message,HttpStatusCode statusCode) {

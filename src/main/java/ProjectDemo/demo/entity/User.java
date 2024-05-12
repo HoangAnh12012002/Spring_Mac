@@ -47,6 +47,9 @@ public class User implements UserDetails {
     @Column(name = "role",nullable = false)
     private String Role;
 
+    @OneToOne(mappedBy ="user")
+    private  ForgotPassword forgotPassword;
+
     public String getRole() {
         return Role;
     }
