@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <!-- Các phần head -->
+</head>
+<body>
+<th:block th:include="/_header_on" th:if="${userdto.email}"></th:block>
+<th:block th:include="/_header_off" th:unless="${userdto.email}"></th:block>
+<div class="container">
+    <div class="row">
+
+        <!-- Các phần body -->
+
+        <!-- success message  -->
+        <div th:if="${param.success}">
+            <div class="alert alert-info"> You are successfull registered to our awesome app!</div>
+        </div>
+
+        <h1>Topics</h1>
+        <table class="table table-striped table-success text-center" th:if="${topics.size() != 0}">
+            <thead>
+            <tr>
+                <th class="col-md-1">Answers</th>
+                <th class="col-md-4">Title</th>
+                <th class="col-md-2">Author</th>
+                <th class="col-md-2">Created</th>
+                <th class="col-md-1">Enter</th>
+                <th class="col-md-2">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="topic : ${topics}">
+                <tr>
+                    <td th:text="${commentcount.countComment(topic.id)}">Number of answers</td>
+                    <td th:text="${topic.title}">Topic's title</td>
+                    <td>
+                        <div class="chip" th:text="${topic.user.userDisplayName}">Topic's author</div>
+                    </td>
+                    <td th:text="${topic.creationDate}">Topic's created date</td>
+                    <td>
+                        <a th:href="@{'/topic/' + ${topic.id}}" class="btn btn-floating pulse">
+                            <i class="bi bi-arrow-right-square-fill"></i>
+                        </a>
+                    </td>
+                    <td th:if="${userdto.email == topic.user.email}">
+                        <button class="btn btn-primary text-white" type="button">
+                            <a th:href="@{'/edit_topic/'+${topic.id}}" class="text-white">
+                                Edit
+                            </a>
+                        </button>
+                        <button class="btn btn-danger" type="button">
+                            <a th:href="@{'/deletetopic/'+${topic.id}}" class="text-white" method="GET">
+                                Delete
+                            </a>
+                        </button>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+
+<!--        <p>Welcome, <span th:text="${session.getAttribute('loggedInUser')}"></span>!</p>-->
+    </div>
+</div>
+</body>
+</html>
