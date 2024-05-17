@@ -44,7 +44,7 @@ public interface UserReponsitory extends JpaRepository<User,Integer> {
     List<User> searchUserByName(String query);
 
     // @Query("SELECT u FROM User u WHERE u.Role = :query")
-    @Query("SELECT u FROM User u WHERE u.Role = :query")
+    @Query("SELECT u FROM User u WHERE u.role = :query")
     List<User> filterByRole( String query);
     @Transactional
     @Modifying

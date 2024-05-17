@@ -20,9 +20,7 @@ private String emailSentTo;
         message.setTo(mailBody.to());
         message.setFrom(emailSentTo);
         message.setText(mailBody.text());
-
         javaMailSender.send(message);
-
     }
 
 

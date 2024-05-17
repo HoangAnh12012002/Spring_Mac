@@ -50,10 +50,8 @@ public class ForgotPasswordController {
                 .user(user)
                 .build();
 
-
         emailService.sendSimpleMessage(mailBody);
         forgotPasswordRepository.save(fp);
-
 
         return ResponseEntity.ok("Email sent for verification!");
 

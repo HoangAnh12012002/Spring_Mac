@@ -1,9 +1,11 @@
 package ProjectDemo.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Data //Lombok đang ko nhận nên dang dùng getter, setter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -44,34 +46,31 @@ public class User implements UserDetails {
     @Column(name = "creation_date",nullable = false)
     private String CreationDate;
 
-    @Column(name = "role",nullable = false)
-    private String Role;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    @JsonBackReference  // Tránh vòng lặp vô hạn
+    @ToString.Exclude  // Loại trừ thuộc tính users khỏi toString
+    private Role role;
 
     @OneToOne(mappedBy ="user")
     private  ForgotPassword forgotPassword;
 
-    public String getRole() {
-        return Role;
-    }
+    public User( String email, String userDisplayName, String aboutMe, int views, int topicCounts, String password, String creationDate, Role role) {
 
-    public void setRole(String role) {
-        Role = role;
-    }
-
-    public User(String Email, String userDisplayName, String aboutMe, int views, int topicCounts, String password, String creationDate, String role) {
-        email = Email;
+        this.email = email;
         UserDisplayName = userDisplayName;
         AboutMe = aboutMe;
         Views = views;
         TopicCounts = topicCounts;
         Password = password;
         CreationDate = creationDate;
-        Role = role;
+        this.role = role;
+
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(getRole()));
+        return List.of(new SimpleGrantedAuthority(role.getName().toString()));
     }
 
     @Override

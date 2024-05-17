@@ -37,9 +37,7 @@ public class TestSearch_Filter {
     public ResponseEntity<User> GetUserByIdUsingPathVariable(@PathVariable int ID) {
         return ResponseEntity.ok(userReponsitory.findById(ID));
         
-
     }
-
     @GetMapping("/GetById")
     public ResponseEntity<User> GetUserByIdUsingParam(@RequestParam(value = "ID", required = true) int ID) {
         return ResponseEntity.ok(userReponsitory.findById(ID));

@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 public class JWTServiceImpl implements JWTService {
@@ -26,8 +25,8 @@ public class JWTServiceImpl implements JWTService {
     public String generateToken(Map<String, Object> claims,UserDetails userDetails){
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
         List<String> roles = authorities.stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+                .map(GrantedAuthority::getAuthority).toList();
+
 
         claims.put("roles", roles); // Thêm danh sách quyền vào claims
         // extraClaims.put("roles", userDetails.getAuthorities());

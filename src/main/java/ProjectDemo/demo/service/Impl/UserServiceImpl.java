@@ -5,8 +5,10 @@ import ProjectDemo.demo.Exception.AppException;
 import ProjectDemo.demo.Exception.ErrorCode;
 import ProjectDemo.demo.dto.*;
 import ProjectDemo.demo.entity.Profile;
+import ProjectDemo.demo.entity.Role;
 import ProjectDemo.demo.entity.User;
 import ProjectDemo.demo.reponsitory.ProfileReponsitory;
+import ProjectDemo.demo.reponsitory.RoleRepository;
 import ProjectDemo.demo.reponsitory.UserReponsitory;
 import ProjectDemo.demo.service.JWTService;
 import ProjectDemo.demo.service.UserService;
@@ -43,6 +45,8 @@ public class UserServiceImpl implements UserService {
 //    private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private UserReponsitory userReponsitory;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private ProfileReponsitory profileReponsitory;
@@ -76,6 +80,7 @@ public class UserServiceImpl implements UserService {
         if(checkUserbyEmail(userDto.getEmail())==false){
             throw new AppException(ErrorCode.USER_EXISTED);
         }
+        Role userRole=roleRepository.findByName("USER");
 
         User user = new User(userDto.getEmail(),
                 userDto.getUserDisplayName(),
@@ -85,7 +90,7 @@ public class UserServiceImpl implements UserService {
                 pass,
                 //   passwordEncoder.encode(userDto.getPassword()),
                 creationDate,
-                "USER"
+                userRole
         );
         return  userReponsitory.save(user);
     }
@@ -135,7 +140,7 @@ public class UserServiceImpl implements UserService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         String creationDate = Date.format(formatter);
      //   String password=passwordEncoder.encode(userDto.getPassword());
-
+        Role userRole=roleRepository.findByName("USER");
         User user = new User(userDto.getEmail(),
                 userDto.getUserDisplayName(),
                 ".",
@@ -144,7 +149,7 @@ public class UserServiceImpl implements UserService {
                 userDto.getPassword(),
              //   passwordEncoder.encode(userDto.getPassword()),
                 creationDate,
-                "USER"
+                userRole
         );
         Profile profile=new Profile(
                 "First Name",
@@ -159,18 +164,20 @@ public class UserServiceImpl implements UserService {
         profileReponsitory.save(profile);
     }
 
-    @Override
-    public void update(UserUpdateDTO userUpdateDTO,Integer ID) {
-        if (userReponsitory.findById(ID).isPresent()) {
-            User user1 = userReponsitory.findById(ID).get();
-            user1.setAboutMe(userUpdateDTO.getAboutMe());
-            user1.setEmail(userUpdateDTO.getEmail());
-            user1.setUserDisplayName(userUpdateDTO.getUserDisplayName());
-            user1.setRole(userUpdateDTO.getRole());
-
-            userReponsitory.save(user1);
-        }
-    }
+//    @Override
+//    public void update(UserUpdateDTO userUpdateDTO,Integer ID) {
+//        if (userReponsitory.findById(ID).isPresent()) {
+//            Role userRole=roleRepository.findByName("USER");
+//            User user1 = userReponsitory.findById(ID).get();
+//            user1.setAboutMe(userUpdateDTO.getAboutMe());
+//            user1.setEmail(userUpdateDTO.getEmail());
+//            user1.setUserDisplayName(userUpdateDTO.getUserDisplayName());
+//user1.setRole();
+//            user1.setRole(userUpdateDTO.getRole());
+//
+//            userReponsitory.save(user1);
+//        }
+//    }
 //    @Override
 //    public Boolean checkPasswordUser(String email, String password) {
 //        //Optional<User> user = userReponsitory.findUserByEmail(email);

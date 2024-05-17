@@ -13,7 +13,7 @@ public interface UserService {
 
 //    Boolean checkPasswordUser(String email,String password);
 //    Boolean checkUserbyEmail(String email);
-    void update(UserUpdateDTO userUpdateDTO,Integer ID);
+   // void update(UserUpdateDTO userUpdateDTO,Integer ID);
    User getUserbyEmail(String email);
 
   //  List<User> check();
